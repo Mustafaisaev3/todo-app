@@ -17,15 +17,27 @@ export const useTodoStore = defineStore('todo', {
         text,
         completed: false,
       });
+      this.saveToLocalStorage();
     },
     toggleTodo(id: number) {
       const todo = this.todos.find(todo => todo.id === id);
       if (todo) {
         todo.completed = !todo.completed;
+        this.saveToLocalStorage();
       }
     },
     deleteTodo(id: number) {
       this.todos = this.todos.filter(todo => todo.id !== id);
-    }
+      this.saveToLocalStorage();
+    },
+    loadFromLocalStorage() {
+      const storedTodos = localStorage.getItem('todos');
+      if (storedTodos) {
+        this.todos = JSON.parse(storedTodos);
+      }
+    },
+    saveToLocalStorage() {
+      localStorage.setItem('todos', JSON.stringify(this.todos));
+    },
   },
 });

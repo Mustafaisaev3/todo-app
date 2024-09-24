@@ -7,9 +7,16 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+import { useTodoStore } from '../store';
 import TodoInput from './TodoInput.vue';
 import TodoList from './TodoList.vue';
 
+const { loadFromLocalStorage } = useTodoStore();
+
+onMounted(() => {
+  loadFromLocalStorage();
+});
 </script>
 
 <style scoped>
